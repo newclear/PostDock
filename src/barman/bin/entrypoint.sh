@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+if [ "$USE_ENV_SECRET" != "" -a -e /run/secrets/$USE_ENV_SECRET ]; then
+  source <(sed -E -n 's/[^#]+/export &/ p' /run/secrets/$USE_ENV_SECRET)
+fi
+
 chown -R postgres:postgres $BACKUP_DIR
 
 echo ">>> Checking all configurations"

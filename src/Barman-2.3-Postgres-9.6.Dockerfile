@@ -1,10 +1,10 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Apr  5 01:24:19 CST 2018              ##
+##               BUILD_NUMBER=Fri Apr  6 02:20:49 CST 2018              ##
 ##########################################################################
 
-FROM golang:1.8-jessie
+FROM golang:1.9-jessie
 
 # grab gosu for easy step-down from root
 ARG GOSU_VERSION=1.7
@@ -28,7 +28,7 @@ RUN  apt-get install -y postgresql-client-9.6
 
 RUN  apt-get install -y barman=2.3-2.pgdg80+1
 
-RUN apt-get -y install cron
+RUN apt-get -y --no-install-recommends install cron
 ADD barman/crontab /etc/cron.d/barman
 RUN rm -f /etc/cron.daily/*
 

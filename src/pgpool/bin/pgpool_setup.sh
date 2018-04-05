@@ -68,6 +68,8 @@ do
     $ACCESSABLE_NODE || echo ">>>>>> Will not add node $NUM - it's unreachable!"
     $ACCESSABLE_NODE || continue
 
+    PULLPWD_HOST=$HOST
+    PULLPWD_PORT=$PORT
     echo ">>>>>> Adding backend $NUM"
     echo "
 backend_hostname$NUM = '$HOST'
@@ -89,6 +91,10 @@ else
     echo ">>>>>> Will start pgpool REQUIRE_MIN_BACKENDS=$REQUIRE_MIN_BACKENDS, BACKENDS_COUNT=$BACKENDS_COUNT"
 fi
 
+if [ "$PULLPWD_HOST" != "" ]; then
+    PGPASSWORD="$CHECK_PASSWORD" psql -tA -F : -h $PULLPWD_HOST -p $PULLPWD_PORT -U $CHECK_USER template1 -c \
+        'select usename,passwd from pg_shadow where passwd is not null' >> $POOL_PASSWD_FILE
+fi
 
 echo ">>> Configuring $CONFIG_FILE"
 echo "

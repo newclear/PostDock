@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:{{ DEBIAN_VERSION }}
 ARG DOCKERIZE_VERSION=v0.2.0
 
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres -d /home/postgres  --uid=999 postgres
@@ -6,7 +6,7 @@ RUN groupadd -r postgres --gid=999 && useradd -r -g postgres -d /home/postgres  
 # grab gosu for easy step-down from root
 ARG GOSU_VERSION=1.7
 RUN set -x \
-	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+	&& apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr ca-certificates wget && rm -rf /var/lib/apt/lists/* \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \
@@ -17,7 +17,7 @@ RUN set -x \
 	&& gosu nobody true 
 
 RUN  wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add - && \
-     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ {{ DEBIAN_VERSION }}-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
      apt-get update
 
 RUN  apt-get install -y libffi-dev libssl-dev openssh-server

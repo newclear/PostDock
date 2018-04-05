@@ -1,7 +1,7 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Apr  5 01:24:19 CST 2018              ##
+##               BUILD_NUMBER=Fri Apr  6 02:16:21 CST 2018              ##
 ##########################################################################
 
 FROM debian:jessie
@@ -12,7 +12,7 @@ RUN groupadd -r postgres --gid=999 && useradd -r -g postgres -d /home/postgres  
 # grab gosu for easy step-down from root
 ARG GOSU_VERSION=1.7
 RUN set -x \
-	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+	&& apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr ca-certificates wget && rm -rf /var/lib/apt/lists/* \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \

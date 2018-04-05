@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [ "$USE_ENV_SECRET" != "" -a -e /run/secrets/$USE_ENV_SECRET ]; then
+  source <(sed -E -n 's/[^#]+/export &/ p' /run/secrets/$USE_ENV_SECRET)
+fi
+
 if [[ "$1" != "" ]]; then
     ENOUGH_BACKENDS=$1
 else

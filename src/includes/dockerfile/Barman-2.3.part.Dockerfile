@@ -1,4 +1,4 @@
-FROM golang:1.8-jessie
+FROM golang:1.9-{{ DEBIAN_VERSION }}
 
 # grab gosu for easy step-down from root
 ARG GOSU_VERSION=1.7
@@ -14,7 +14,7 @@ RUN set -x \
 	&& gosu nobody true 
 
 RUN  wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add - && \
-     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ {{ DEBIAN_VERSION }}-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
      apt-get update && \
      apt-get install -y libffi-dev libssl-dev openssh-server
 
@@ -28,7 +28,7 @@ RUN TEMP_DEB="$(mktemp)" && \
 
 RUN  apt-get install -y barman={{ BARMAN_PACKAGE_VERSION }}
 
-RUN apt-get -y install cron
+RUN apt-get -y --no-install-recommends install cron
 ADD barman/crontab /etc/cron.d/barman
 RUN rm -f /etc/cron.daily/*
 

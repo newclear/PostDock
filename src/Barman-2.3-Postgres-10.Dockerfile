@@ -1,10 +1,10 @@
 
 ##########################################################################
 ##                         AUTO-GENERATED FILE                          ##
-##               BUILD_NUMBER=Thu Apr  5 01:24:19 CST 2018              ##
+##               BUILD_NUMBER=Fri Apr  6 02:20:49 CST 2018              ##
 ##########################################################################
 
-FROM golang:1.8-jessie
+FROM golang:1.9-stretch
 
 # grab gosu for easy step-down from root
 ARG GOSU_VERSION=1.7
@@ -20,15 +20,15 @@ RUN set -x \
 	&& gosu nobody true 
 
 RUN  wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add - && \
-     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
      apt-get update && \
      apt-get install -y libffi-dev libssl-dev openssh-server
 
 RUN  apt-get install -y postgresql-client-10
 
-RUN  apt-get install -y barman=2.3-2.pgdg80+1
+RUN  apt-get install -y barman=2.3-2.pgdg90+1
 
-RUN apt-get -y install cron
+RUN apt-get -y --no-install-recommends install cron
 ADD barman/crontab /etc/cron.d/barman
 RUN rm -f /etc/cron.daily/*
 

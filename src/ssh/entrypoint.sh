@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-set -e
+set +e
 
 chown -R postgres:postgres /home/postgres
 chmod 600 -R /home/postgres/.ssh/id_rsa
+
+set -e
 
 if [[ "$SSH_ENABLE" == "1" ]]; then
     echo '>>> TUNING UP SSH CLIENT...'

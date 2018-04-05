@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+if [ "$USE_ENV_SECRET" != "" -a -e /run/secrets/$USE_ENV_SECRET ]; then
+  source <(sed -E -n 's/[^#]+/export &/ p' /run/secrets/$USE_ENV_SECRET)
+fi
+
 export CONFIG_FILE='/usr/local/etc/pgpool.conf'
 export PCP_FILE='/usr/local/etc/pcp.conf'
 export HBA_FILE='/usr/local/etc/pool_hba.conf'
