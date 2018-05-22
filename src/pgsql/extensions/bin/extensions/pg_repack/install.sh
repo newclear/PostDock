@@ -3,7 +3,7 @@
 if [ "$EXTENSIONS_BATCH_INSTALL" = "" ]; then
   apt-get install -y make unzip gcc libssl-dev zlib1g-dev
 fi
-wget -q -O pg_repack.zip "https://api.pgxn.org/dist/pg_repack/1.4.2/pg_repack-1.4.2.zip"
+wget -q -O pg_repack.zip "https://api.pgxn.org/dist/pg_repack/1.4.3/pg_repack-1.4.3.zip"
 unzip pg_repack.zip && rm pg_repack.zip
 cd pg_repack-*
 make && make install
